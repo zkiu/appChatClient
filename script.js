@@ -1,6 +1,3 @@
-var socket = io();
-
-socket.on('message', AddMessage)
 
 // Outputs messages to App --------------------------------------
 
@@ -23,7 +20,11 @@ document.addEventListener("DOMContentLoaded", () => {
     GetMessages(message);
 })
 
-// Caputure submitted messages --------------------------------------
+// Caputure submitted messages with Socket.IO--------------------------------------
+var socket = io();
+
+
+
 
 document.querySelector('button').addEventListener('click', () => {
     let name = document.querySelector('#name').value;
@@ -34,5 +35,7 @@ document.querySelector('button').addEventListener('click', () => {
     // console.log(data);
     
     let data = { name: name, message: message }
-    $.post('http://localhost:3000/messages', data)
+    socket.emit('message', data)
 })
+
+socket.on('message', AddMessage)

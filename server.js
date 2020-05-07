@@ -23,18 +23,24 @@ const server = http.listen(port, () => console.log(`Server is listening at http:
 
 app.get('/messages', (req, res) => res.send(messages))
 
-app.post('/messages', (req, res) => {
-    messages.push(req.body)
-    io.emit('message', req.body)
-    res.sendStatus(200);
-    
-    // res.send(messages);
-    // console.log(messages);
-})
+// app.post('/messages', (req, res) => {
+//     messages.push(req.body)
+//     io.emit('message', req.body)
+//     res.sendStatus(200);
+// })
+
+
 
 io.on('connection', (socket) => {
     console.log('new user connection');
     socket.on('disconnect', () => {
         console.log('user disconnected');
+    });
+    
+    //this replaces the app.post() codes above
+    socket.on('message', (message) => {
+        messages.push(message)
+        console.log(message);
+        io.emit('message', message)
     });
 })
