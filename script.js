@@ -1,3 +1,7 @@
+var socket = io();
+
+socket.on('message', AddMessage)
+
 // Outputs messages to App --------------------------------------
 
 function AddMessage(message) {

@@ -24,8 +24,10 @@ const server = http.listen(port, () => console.log(`Server is listening at http:
 app.get('/messages', (req, res) => res.send(messages))
 
 app.post('/messages', (req, res) => {
-    res.sendStatus(200);
     messages.push(req.body)
+    io.emit('message', req.body)
+    res.sendStatus(200);
+    
     // res.send(messages);
     // console.log(messages);
 })
