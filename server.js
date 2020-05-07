@@ -5,7 +5,17 @@ const port = 3000
 const http = require('http').createServer(app)
 const io = require('socket.io')(http)
 
-//pre-populated chat messages (this is used before the database is implemented)
+const mongoose = require('mongoose')
+const urlDB = "mongodb+srv://user:user@learningmodulus-yrmc9.mongodb.net/test?retryWrites=true&w=majority" //in production, this url would be in a hidden config file
+mongoose.connect(urlDB, { useNewUrlParser: true, useUnifiedTopology: true })
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log('mongoose is connected to MongoDB');
+})
+
+//pre-populated chat messages for testing(this is used before the database is implemented)
 var messages = [
     { name: 'Claire', message: 'What is up?' },
     { name: 'Lisa', message: 'Hola' },
