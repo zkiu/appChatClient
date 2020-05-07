@@ -2,6 +2,9 @@ const express = require('express')
 const app = express()
 const port = 3000
 
+const http = require('http').createServer(app)
+const io = require('socket.io')(http)
+
 //pre-populated chat messages (this is used before the database is implemented)
 var messages = [
     { name: 'Claire', message: 'What is up?' },
@@ -16,7 +19,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static('.'))
 
 
-const server = app.listen(port, () => console.log(`Server is listening at http://localhost:${server.address().port}`))
+const server = http.listen(port, () => console.log(`Server is listening at http://localhost:${server.address().port}`))
 
 app.get('/messages', (req, res) => res.send(messages))
 
@@ -25,4 +28,11 @@ app.post('/messages', (req, res) => {
     messages.push(req.body)
     // res.send(messages);
     // console.log(messages);
+})
+
+io.on('connection', (socket) => {
+    console.log('new user connection');
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+    });
 })
