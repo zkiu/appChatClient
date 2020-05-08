@@ -16,6 +16,7 @@ function GetMessages() {
     })
 }
 
+//On app load (but before images are loaded), display all the chat history below the chat area 
 document.addEventListener("DOMContentLoaded", () => {
     console.log('loaded')
     // const message = { name:"kiu", message:"here"}

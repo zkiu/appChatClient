@@ -27,10 +27,10 @@ var Message = mongoose.model('Message', MsgSchema)
 
 
 //pre-populated chat messages for testing(this is used before the database is implemented) 
-var messages = [
-    { name: 'Claire', message: 'What is up?' },
-    { name: 'Lisa', message: 'Hola' },
-]
+// var messages = [
+//     { name: 'Claire', message: 'What is up?' },
+//     { name: 'Lisa', message: 'Hola' },
+// ]
 
 
 //ensure that the form data received is parsed
@@ -42,7 +42,15 @@ app.use(express.static('.'))
 
 const server = http.listen(port, () => console.log(`Server is listening at http://localhost:${server.address().port}`))
 
-app.get('/messages', (req, res) => res.send(messages))
+//lists all the messages in the database
+app.get('/messages', (req, res) => {
+    Message.find({}, (err, messages) => {
+        if (err) {
+            throw err
+        }
+        res.send(messages)
+    })
+})
 
 // app.post('/messages', (req, res) => {
 //     messages.push(req.body)
@@ -66,7 +74,7 @@ io.on('connection', (socket) => {
                 sendStatus(500)
             }
             //  for when used an array to temporarily store messages while server is up. But save method is not persistant
-            messages.push(message)
+            // messages.push(message)
             console.log(message);
             io.emit('message', message)
         })
