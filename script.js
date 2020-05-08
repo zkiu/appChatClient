@@ -39,6 +39,9 @@ document.querySelector('button').addEventListener('click', () => {
     
     let data = { name: name, message: message }
     socket.emit('message', data)
+
+    //clears the form after pressng the submit button
+    document.querySelector('#form1').reset()
 })
 
 socket.on('message', AddMessage)
