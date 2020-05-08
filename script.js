@@ -1,12 +1,14 @@
 
 // Outputs messages to App --------------------------------------
 
+//function to and 1 message to the html with ID #MESSAGE
 function AddMessage(message) {
     const MESSAGE = document.querySelector('#messages')
     MESSAGE.insertAdjacentHTML('beforeend',`<h4>${message.name}</h4><p>${message.message}</p>`)
 
 }
 
+//iterate through all the massages and call AddMessage()
 function GetMessages() {
     //still have to use JQuery for this. will use plain vanilla JS in the future.
     $.get('http://localhost:3000/messages', data => {
