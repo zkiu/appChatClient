@@ -10,6 +10,8 @@ const mongoose = require('mongoose')
 const urlDB = "mongodb+srv://user:user@learningmodulus-yrmc9.mongodb.net/test?retryWrites=true&w=majority" //in production, this url would be in a hidden config file
 mongoose.connect(urlDB, { useNewUrlParser: true, useUnifiedTopology: true })
 
+mongoose.Promise = Promise
+
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', ()=>{
@@ -18,10 +20,10 @@ db.once('open', ()=>{
 })
 
 //  --defining database structure
-var MsgSchema = new mongoose.Schema({
+var MsgSchema = {
     name: String,
     message: String
-})
+}
 
 var Message = mongoose.model('Message', MsgSchema)
 
@@ -68,16 +70,23 @@ io.on('connection', (socket) => {
     
     //this replaces the app.post() codes above
     socket.on('message', (message) => {
-        let messageRev = new Message(message)
-        messageRev.save((err) => {
-            if (err) {
+        let messageRec = new Message(message)
+        messageRec.save()
+            .then(() => {
+                console.log('message saved')
+                return Message.findOne({ message: 'badword' })
+            })
+            .then((censoredDocument) => {
+                if (censoredDocument) {
+                    console.log('Censored Document found: ' + censoredDocument)
+                    return Message.deleteOne({ _id: censoredDocument.id})
+                }
+                console.log(message);
+                io.emit('message', message)
+            })
+            .catch((err) => {
                 sendStatus(500)
-            }
-            //  for when used an array to temporarily store messages while server is up. But save method is not persistant
-            // messages.push(message)
-            console.log(message);
-            io.emit('message', message)
-        })
-
+                return console.error(err);
+            })
     });
 })
