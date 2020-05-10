@@ -7,9 +7,11 @@ const io = require('socket.io')(http)
 
 //Adding mongoose -----------------------------------------------
 const mongoose = require('mongoose')
-const urlDB = "mongodb+srv://user:user@learningmodulus-yrmc9.mongodb.net/test?retryWrites=true&w=majority" //in production, this url would be in a hidden config file
+//in production, this url would be in a hidden config file
+const urlDB = "mongodb+srv://user:user@learningmodulus-yrmc9.mongodb.net/test?retryWrites=true&w=majority" 
 mongoose.connect(urlDB, { useNewUrlParser: true, useUnifiedTopology: true })
 
+// tell mongoose to use the ES6 Promise library
 mongoose.Promise = Promise
 
 var db = mongoose.connection;
@@ -27,24 +29,13 @@ var MsgSchema = {
 
 var Message = mongoose.model('Message', MsgSchema)
 
-
-//pre-populated chat messages for testing(this is used before the database is implemented) 
-// var messages = [
-//     { name: 'Claire', message: 'What is up?' },
-//     { name: 'Lisa', message: 'Hola' },
-// ]
-
-
-//ensure that the form data received is parsed
-app.use(express.urlencoded({ extended: true }))
-
 //the html file at the root dir is displayed 
 app.use(express.static('.'))
 
-
+//variable server is only used in the http.listen callback() to get the port number
 const server = http.listen(port, () => console.log(`Server is listening at http://localhost:${server.address().port}`))
 
-//lists all the messages in the database
+//Respond to the GET /messages page request from the client
 app.get('/messages', (req, res) => {
     Message.find({}, (err, messages) => {
         if (err) {
@@ -54,35 +45,33 @@ app.get('/messages', (req, res) => {
     })
 })
 
-// app.post('/messages', (req, res) => {
-//     messages.push(req.body)
-//     io.emit('message', req.body)
-//     res.sendStatus(200);
-// })
-
-
 
 io.on('connection', (socket) => {
     console.log('new client connection');
+    
+    //actions on client disconnect
     socket.on('disconnect', () => {
         console.log('user disconnected');
     });
     
-    //this replaces the app.post() codes above
     socket.on('message', (message) => {
-        let messageRec = new Message(message)
-        messageRec.save()
+        //create a new 'message' document from the Message model/collection
+        let messageReceived = new Message(message)
+        messageReceived.save()
             .then(() => {
-                console.log('message saved')
-                return Message.findOne({ message: 'badword' })
-            })
-            .then((censoredDocument) => {
-                if (censoredDocument) {
-                    console.log('Censored Document found: ' + censoredDocument)
-                    return Message.deleteOne({ _id: censoredDocument.id})
-                }
-                console.log(message);
-                io.emit('message', message)
+                console.log('message saved to MongoDB')
+
+            //  SIMPLE IMPLEMENTATION OF A 'BADWORD FILTER' ---------------------------------
+            //     return Message.findOne({ message: 'badword' })
+            // })
+            // .then((censoredDocument) => {
+            //     if (censoredDocument) {
+            //         console.log('Censored Document found: ' + censoredDocument)
+            //         return Message.deleteOne({ _id: censoredDocument.id})
+            //     }
+            //     console.log(message);
+            //  -------------------------------------------------------------------------------
+                
             })
             .catch((err) => {
                 sendStatus(500)
