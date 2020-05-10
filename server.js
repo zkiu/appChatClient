@@ -7,7 +7,7 @@ const app = express()
 // Setting the port requirement for Heroku
 let port = process.env.PORT;
 if (port == null || port == "") {
-    port = 8000;
+    port = 3000;
 }
 
 
