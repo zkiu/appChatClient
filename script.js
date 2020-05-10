@@ -9,7 +9,8 @@ function AddMessage(message) {
 // Send GET request for /messages page that contains all the database messages.
 function GetMessages() {
     //still have to use JQuery for this. will use plain vanilla JS in the future.
-    $.get('http://localhost:3000/messages', data => {
+    // port 8000 is explicitly set -> may need to make this a variable in the future in case the port # change dynamically
+    $.get('http://localhost:8000/messages', data => {
         data.forEach(AddMessage);
     })
 }

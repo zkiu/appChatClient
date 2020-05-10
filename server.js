@@ -1,6 +1,16 @@
 const express = require('express')
 const app = express()
-const port = 3000
+
+// Typical port used for dev
+// const port = 3000
+
+// Setting the port requirement for Heroku
+let port = process.env.PORT;
+if (port == null || port == "") {
+    port = 8000;
+}
+
+
 
 const http = require('http').createServer(app)
 const io = require('socket.io')(http)

@@ -3,5 +3,5 @@ backup/
 *.css.map
 *.sass.map
 *.scss.map
-node_modules
+node_modules/   
 
