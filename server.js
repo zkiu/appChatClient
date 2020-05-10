@@ -1,9 +1,6 @@
 const express = require('express')
 const app = express()
 
-// -- Typical port used for dev
-//  -- const port = 3000
-
 //  -- Setting the port requirement for Heroku
 let port = process.env.PORT;
 if (port == null || port == "") {
@@ -43,7 +40,7 @@ var Message = mongoose.model('Message', MsgSchema)
 app.use(express.static('.'))
 
 // -- variable server is only used in the http.listen callback() to get the port number
-const server = http.listen(port, () => console.log(`Server is listening at http://localhost:${server.address().port}`))
+const server = http.listen(port)
 
 // -- Respond to the GET /messages page request from the client
 app.get('/messages', (req, res) => {
