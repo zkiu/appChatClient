@@ -16,10 +16,10 @@ function GetMessages() {
 }
 
 // Once app loaded (but before images are loaded), display all the chat history below the chat area 
-document.addEventListener("DOMContentLoaded", () => {
-    // console.log('loaded')
-    GetMessages(message);
-})
+// document.addEventListener("DOMContentLoaded", () => {
+//     // console.log('loaded')
+//     GetMessages(message);
+// })
 
 // Socket.IO Initialization on client side--------------------------------------
 var socket = io();
