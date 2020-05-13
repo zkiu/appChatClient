@@ -6,10 +6,10 @@ function AddMessage(message) {
     MESSAGE.insertAdjacentHTML('beforeend',`<h4>${message.name}</h4><p>${message.message}</p>`)
 }
 
-// -- Send GET request for /messages page that contains all the database messages.
+// -- Send GET request for the /messages page that contains all the database messages.
 function GetMessages() {
-    //-- still have to use JQuery for this. will use plain vanilla JS in the future.
-    $.get('https://pure-springs-58577.herokuapp.com/messages', data => {
+    //-- still have to use JQuery for this. will update with plain vanilla JS in the future.
+    $.get(`${window.location.href}messages`, data => {
         data.forEach(AddMessage);
     })
 }
