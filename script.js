@@ -8,10 +8,31 @@ function AddMessage(message) {
 
 // -- Send GET request for the /messages page that contains all the database messages.
 function GetMessages() {
-    //-- still have to use JQuery for this. will update with plain vanilla JS in the future.
-    $.get(`${window.location.href}messages`, data => {
-        data.forEach(AddMessage);
-    })
+    //-- Code below uses JQuery for this. .
+    // $.get(`${window.location.href}messages`, data => {
+    //     data.forEach(AddMessage);        
+    // })
+
+    // JQuery code above has been rewritten with plain vanilla JS below
+    var request = new XMLHttpRequest();
+    request.open('GET', `${window.location.href}messages`, true);
+
+    request.onload = function () {
+        if (this.status >= 200 && this.status < 400) {
+            // Success!
+            var resp = this.response;
+            console.log(JSON.parse(resp));  
+            // document.write(JSON.parse(resp))
+            JSON.parse(resp).forEach(AddMessage);
+        }
+    };
+
+    request.onerror = function () {
+        // There was a connection error of some sort
+        alert('request to server error')
+    };
+
+    request.send();
 }
 
 // -- Once app loaded (but before images are loaded), display all the chat history below the chat area 
