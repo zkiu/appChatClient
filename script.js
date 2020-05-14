@@ -21,7 +21,6 @@ function GetMessages() {
         if (this.status >= 200 && this.status < 400) {
             // Success!
             var resp = this.response;
-            console.log(JSON.parse(resp));  
             // document.write(JSON.parse(resp))
             JSON.parse(resp).forEach(AddMessage);
         }
