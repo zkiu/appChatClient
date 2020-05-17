@@ -1,6 +1,12 @@
 const express = require('express')
 const app = express()
 
+// --need to tweak this:
+// process.env.NODE_ENV
+// -- "development"
+
+
+
 //  -- Setting the port requirement for Heroku
 let port = process.env.PORT;
 if (port == null || port == "") {

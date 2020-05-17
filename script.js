@@ -43,8 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
 // -- Socket.IO Initialization on client side--------------------------------------
 var socket = io();
 
-// -- On btn submit
-document.querySelector('button').addEventListener('click', () => {
+// -- Submitting the message to the database
+function msgSubmit() {
     // -- grab text input values from the form
     let name = document.querySelector('#name').value;
     let message = document.querySelector('#message').value;
@@ -57,4 +57,11 @@ document.querySelector('button').addEventListener('click', () => {
     AddMessage(data)
     // -- clears the form
     document.querySelector('#form1').reset()
-})
+}
+
+document.querySelector('button').addEventListener('click', msgSubmit)
+document.querySelector('#message').addEventListener("keydown", function (e) {
+    if (e.keyCode === 13) {  //checks whether the pressed key is "Enter"
+        msgSubmit();
+    }
+});
