@@ -37,7 +37,8 @@ db.once('open', ()=>{
 //  --defining database structure
 var MsgSchema = {
     name: String,
-    message: String
+    message: String,
+    date: { type: Date, default: Date.now }
 }
 
 var Message = mongoose.model('Message', MsgSchema)
@@ -67,6 +68,8 @@ io.on('connection', (socket) => {
         console.log('user disconnected');
     });
     
+
+    // -- TO DO: update this to a proper POST request
     socket.on('message', (message) => {
         // -- create a new 'message' document from the Message model/collection
         let messageReceived = new Message(message)
@@ -91,4 +94,16 @@ io.on('connection', (socket) => {
                 return console.error(err);
             })
     });
+
+    // -- TO DO: update this to a proper DELETE request
+    // -- Delete all collections in database
+    socket.on('deleteAll', (deletefunction) => {
+        deletefunction()
+        Message.deleteMany({}, (err) => {
+            if (err) {
+                throw err
+            }
+        })
+    })
+
 })

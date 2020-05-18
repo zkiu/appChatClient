@@ -51,6 +51,8 @@ function msgSubmit() {
 
     // -- create an object with input values and send it to server side
     let data = { name: name, message: message }
+    
+    // -- TO DO: update this to a proper POST request
     // -- pass the form imput to the server
     socket.emit('message', data)
 
@@ -60,8 +62,20 @@ function msgSubmit() {
 }
 
 document.querySelector('button').addEventListener('click', msgSubmit)
-document.querySelector('#message').addEventListener("keydown", function (e) {
+
+document.querySelector('#message').addEventListener('keydown', function (e) {
     if (e.keyCode === 13) {  //checks whether the pressed key is "Enter"
         msgSubmit();
     }
 });
+
+document.querySelector('#btn-delete-all').addEventListener('click', function (e) {
+    console.log('delete button pressed');
+    
+    // -- TO DO: update this to a proper DELETE request
+    socket.emit('deleteAll', () => { console.log('delete called') })
+    const MESSAGE = document.querySelector('#messages')
+    MESSAGE.innerHTML = '' 
+    }
+);
+
