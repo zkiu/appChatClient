@@ -2,8 +2,8 @@
 
 // -- Append 1 message to html code at id:messages
 function AddMessage(message) {
-    const MESSAGE = document.querySelector('#messages')
-    MESSAGE.insertAdjacentHTML('beforeend',`<h4>${message.name}</h4><p>${message.message}</p>`)
+    const MESSAGE = document.querySelector('tbody')
+    MESSAGE.insertAdjacentHTML('beforeend', `<tr><td>${message.name}</td><td>${message.message}</td><td>${message.date}</td></tr>`)
 }
 
 // -- Send GET request for the /messages page that contains all the database messages.
