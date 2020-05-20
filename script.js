@@ -49,13 +49,20 @@ function msgSubmit() {
     let name = document.querySelector('#name').value;
     let message = document.querySelector('#message').value;
 
-    // -- create an object with input values and send it to server side
+    // -- create an object with input values
     let data = { name: name, message: message }
     
-    // -- TO DO: update this to a proper POST request
-    // -- pass the form imput to the server
-    socket.emit('message', data)
+    // -- Saving the message using the quick and unsafe way (not CRUD)
+    // socket.emit('message', data)
 
+    // -- POST request impementation    
+    var request = new XMLHttpRequest()
+    request.open('POST', `${window.location.href}messages`, true)
+    request.setRequestHeader("Content-Type", "text/plain;charset=UTF-8")
+    let confirm = request.send(JSON.stringify(data)) // -- send data as text using stringify
+    console.log(confirm);
+    
+    // -- Append message to Client webpage
     AddMessage(data)
     // -- clears the form
     document.querySelector('#form1').reset()

@@ -43,6 +43,10 @@ var MsgSchema = {
 
 var Message = mongoose.model('Message', MsgSchema)
 
+// -- Middleware to parse the incoming POST requests
+app.use(express.urlencoded({ extended: true })) // -- not used yet in this app
+app.use(express.text())
+
 // -- the html file at the root dir is displayed 
 app.use(express.static('.'))
 
@@ -59,6 +63,29 @@ app.get('/messages', (req, res) => {
     })
 })
 
+app.post('/messages', async (req, res) => {
+    try {
+        var message = new Message(JSON.parse(req.body))
+        var savedMessage = await message.save()
+        console.log('message saved to MongoDB')
+
+        // -- potential filtering code - could be replaced by API
+        // var censored = await Message.findOne({ message: 'badword' })
+        // if (censored)
+        //     await Message.remove({ _id: censored.id })
+        // else
+            // io.emit('message', req.body)
+
+        res.sendStatus(200)
+
+    } catch (error) {
+        res.sendStatus(500)
+        return console.error(error)
+    } finally {
+        console.log('message post called')
+    }
+})
+
 
 io.on('connection', (socket) => {
     console.log('new client connection');
@@ -67,35 +94,7 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('user disconnected');
     });
-    
 
-    // -- TO DO: update this to a proper POST request
-    socket.on('message', (message) => {
-        // -- create a new 'message' document from the Message model/collection
-        let messageReceived = new Message(message)
-        messageReceived.save()
-            .then(() => {
-                console.log('message saved to MongoDB')
-
-            //   -- SIMPLE IMPLEMENTATION OF A 'BADWORD FILTER' ---------------------------------
-            //     return Message.findOne({ message: 'badword' })
-            // })
-            // .then((censoredDocument) => {
-            //     if (censoredDocument) {
-            //         console.log('Censored Document found: ' + censoredDocument)
-            //         return Message.deleteOne({ _id: censoredDocument.id})
-            //     }
-            //     console.log(message);
-            //  -------------------------------------------------------------------------------
-                
-            })
-            .catch((err) => {
-                sendStatus(500)
-                return console.error(err);
-            })
-    });
-
-    // -- TO DO: update this to a proper DELETE request
     // -- Delete all collections in database
     socket.on('deleteAll', (deletefunction) => {
         deletefunction()
@@ -105,5 +104,4 @@ io.on('connection', (socket) => {
             }
         })
     })
-
 })
