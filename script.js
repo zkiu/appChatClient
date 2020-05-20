@@ -79,11 +79,9 @@ document.querySelector('#message').addEventListener('keydown', function (e) {
 });
 
 document.querySelector('#btn-delete-all').addEventListener('click', function (e) {
-    console.log('delete button pressed');
-    
     // -- TO DO: update this to a proper DELETE request
     socket.emit('deleteAll', () => { console.log('delete called') })
-    const MESSAGE = document.querySelector('#messages')
+    const MESSAGE = document.querySelector('tbody')
     MESSAGE.innerHTML = '' 
     }
 );
