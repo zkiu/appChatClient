@@ -67,6 +67,8 @@ app.post('/messages', async (req, res) => {
     try {
         var message = new Message(JSON.parse(req.body))
         var savedMessage = await message.save()
+        // console.log(savedMessage.id, ' ', savedMessage.name);
+        
         console.log('message saved to MongoDB')
 
         // -- potential filtering code - could be replaced by API
@@ -75,7 +77,9 @@ app.post('/messages', async (req, res) => {
         //     await Message.remove({ _id: censored.id })
         // else
             // io.emit('message', req.body)
-
+        
+        
+        io.emit('appendMessage', savedMessage)
         res.sendStatus(200)
 
     } catch (error) {

@@ -59,14 +59,16 @@ function msgSubmit() {
     var request = new XMLHttpRequest()
     request.open('POST', `${window.location.href}messages`, true)
     request.setRequestHeader("Content-Type", "text/plain;charset=UTF-8")
-    let confirm = request.send(JSON.stringify(data)) // -- send data as text using stringify
-    console.log(confirm);
-    
+    request.send(JSON.stringify(data)) // -- send data as text using stringify
+}
+
+// -- Once data successfully saved to MondoDB by server via POST request, server emits the event and returns the newly saved message to callback below
+socket.on('appendMessage', (savedMessage) => {
     // -- Append message to Client webpage
-    AddMessage(data)
+    AddMessage(savedMessage)
     // -- clears the form
     document.querySelector('#form1').reset()
-}
+})
 
 document.querySelector('button').addEventListener('click', msgSubmit)
 
