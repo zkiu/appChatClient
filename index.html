@@ -29,7 +29,7 @@
         </header> -->
 
  
-        <main role="main" class="inner cover">
+        <main role="main">
             
             <h1 class="cover-heading mb-0">Chat via Kiu-Q&#8482;</h1>
             <p class="lead">An open chat client for all!</p>
@@ -39,7 +39,7 @@
             
             <section class="jumbotron pb-3 pt-3 text-left">
                     
-                <div id="message-box" class="border rounded border-dark text-nowrap mb-3">
+                <div id="message-box" class="border rounded border-dark text-nowrap mb-3 overflow-auto">
                     <table id="message-log" class="table table-striped">
                         <!-- table header hidden because the columns are self-explanatory -->
                         <thead style="display: none;">
@@ -51,6 +51,11 @@
                             </tr>
                         </thead>
                         <tbody>
+                                <tr>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td>@mdo</td>
+                                </tr>
                             <!-- messages populated from the MongoDB database here -->
                         </tbody>
                     </table>
