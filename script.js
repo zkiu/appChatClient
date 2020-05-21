@@ -13,6 +13,14 @@ function AddMessage(message) {
     dateConverted = new Intl.DateTimeFormat('default', options).format(date) //convert UTC date to the computer's default local time zone
 
     MESSAGE.insertAdjacentHTML('beforeend', `<tr><td>${message.name}</td><td>${message.message}</td><td class="text-nowrap">${dateConverted}</td></tr>`)
+
+    // -- auto scroll to bottom of element as new items overflow the element container
+    const messageBox = document.querySelector('#message-box')
+    messageBox.scroll({
+        top: 1000000,
+        left: 0,
+        behavior: 'smooth'
+    })
 }
 
 // -- Send GET request for the /messages page that contains all the database messages.
