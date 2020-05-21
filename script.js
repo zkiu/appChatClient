@@ -3,7 +3,16 @@
 // -- Append 1 message to html code at id:messages
 function AddMessage(message) {
     const MESSAGE = document.querySelector('tbody')
-    MESSAGE.insertAdjacentHTML('beforeend', `<tr><td>${message.name}</td><td>${message.message}</td><td>${message.date}</td></tr>`)
+    
+    let date = Date.parse(message.date) //parse the UTC date string from database into date object
+    let options = {
+        year: 'numeric', month: 'numeric', day: 'numeric',
+        hour: 'numeric', minute: 'numeric', second: 'numeric',
+        hour12: false
+    };
+    dateConverted = new Intl.DateTimeFormat('default', options).format(date) //convert UTC date to the computer's default local time zone
+
+    MESSAGE.insertAdjacentHTML('beforeend', `<tr><td>${message.name}</td><td>${message.message}</td><td class="text-nowrap">${dateConverted}</td></tr>`)
 }
 
 // -- Send GET request for the /messages page that contains all the database messages.
