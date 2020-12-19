@@ -1,5 +1,5 @@
 {
-  "name": "chat-app",
+  "name": "Chat_App",
   "version": "1.0.0",
   "description": "Create a web app using Node.js, Express.js, and Socket.IO",
   "main": "server.js",
