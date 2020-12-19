@@ -1,13 +1,13 @@
 {
-  "name": "Chat_App",
+  "name": "chat-app",
   "version": "1.0.0",
   "description": "Create a web app using Node.js, Express.js, and Socket.IO",
   "main": "server.js",
   "dependencies": {
     "express": "^4.17.1",
-    "lodash": "^4.17.15",
-    "mongoose": "^5.9.12",
-    "socket.io": "^2.3.0"
+    "lodash": "^4.17.20",
+    "mongoose": "^5.11.8",
+    "socket.io": "^3.0.4"
   },
   "devDependencies": {},
   "scripts": {
