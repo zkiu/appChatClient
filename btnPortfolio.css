@@ -1,73 +1,73 @@
 /* POPOUT Button for back to portfolio -----------------------------------------*/
 
 .return-pop-out {
-  -webkit-animation-name: tabPopOut;
-          animation-name: tabPopOut;
-  -webkit-animation-duration: 4s;
-          animation-duration: 4s;
-  -webkit-animation-delay: 1s;
-          animation-delay: 1s;
-  -webkit-animation-iteration-count: 1;
-          animation-iteration-count: 1;
+	-webkit-animation-name: tabPopOut;
+	animation-name: tabPopOut;
+	-webkit-animation-duration: 4s;
+	animation-duration: 4s;
+	-webkit-animation-delay: 1s;
+	animation-delay: 1s;
+	-webkit-animation-iteration-count: 1;
+	animation-iteration-count: 1;
 }
 
 @-webkit-keyframes tabPopOut {
-  0% {
-    right: -205px;
-  }
-  50% {
-    right: 0;
-  }
-  100% {
-    right: -205px;
-  }
+	0% {
+		right: -205px;
+	}
+	50% {
+		right: 0;
+	}
+	100% {
+		right: -205px;
+	}
 }
 
 @keyframes tabPopOut {
-  0% {
-    right: -205px;
-  }
-  50% {
-    right: 0;
-  }
-  100% {
-    right: -205px;
-  }
+	0% {
+		right: -205px;
+	}
+	50% {
+		right: 0;
+	}
+	100% {
+		right: -205px;
+	}
 }
 
 .return-pop-out {
-  right: -205px;
-  bottom: 20%;
-  display: block;
-  position: fixed;
-  z-index: 99;
-  background-color: rgba(255, 208, 0, 0.9);
-  color: black;
-  border: 1px solid orange;
-  border-right: none;
-  border-radius: 5px 0 0 5px;
-  text-decoration: none;
-  -webkit-transition: -webkit-transform .5s;
-  transition: -webkit-transform .5s;
-  transition: transform .5s;
-  transition: transform .5s, -webkit-transform .5s;
-  cursor: pointer;
+	right: -205px;
+	bottom: 20%;
+	display: block;
+	position: fixed;
+	z-index: 99;
+	background-color: rgba(255, 208, 0, 0.9);
+	color: black;
+	border: 1px solid orange;
+	border-right: none;
+	border-radius: 5px 0 0 5px;
+	text-decoration: none;
+	-webkit-transition: -webkit-transform 0.5s;
+	transition: -webkit-transform 0.5s;
+	transition: transform 0.5s;
+	transition: transform 0.5s, -webkit-transform 0.5s;
+	cursor: pointer;
 }
 
 .return-pop-out:hover {
-  -webkit-transform: translate(-205px, 0px);
-          transform: translate(-205px, 0px);
+	-webkit-transform: translate(-205px, 0px);
+	transform: translate(-205px, 0px);
 }
 
 .return-pop-out i {
-  font-size: 2em;
-  margin: 5px;
+	font-size: 2em;
+	margin: 5px;
 }
 
 .return-pop-out div {
-  font-size: 1em;
-  display: inline-block;
-  margin-right: 5px;
-  -webkit-transform: translateY(-40%);
-          transform: translateY(-40%);
+	font-size: 1em;
+	display: inline-block;
+	margin-right: 5px;
+	-webkit-transform: translateY(-40%);
+	transform: translateY(-40%);
 }
