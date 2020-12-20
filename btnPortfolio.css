@@ -1,5 +1,8 @@
-/* POPOUT Button for back to portfolio -----------------------------------------*/
-
+/*
+POPOUT Button component to link back to Kiu's portfolio
+has the css, js, and html component
+THis component enable a hovering action for the banner 'Return to Kiu's resume page'
+*/
 .return-pop-out {
 	-webkit-animation-name: tabPopOut;
 	animation-name: tabPopOut;
@@ -55,8 +58,7 @@
 }
 
 .return-pop-out:hover {
-	-webkit-transform: translate(-205px, 0px);
-	transform: translate(-205px, 0px);
+	text-decoration: none;
 }
 
 .return-pop-out i {
