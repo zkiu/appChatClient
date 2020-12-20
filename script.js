@@ -1,3 +1,5 @@
+// -- Socket.IO Initialization on client side--------------------------------------
+var socket = io()
 // -- Append 1 message to html code at id:messages
 function AddMessage(message) {
 	const MESSAGE = document.querySelector('tbody')
@@ -48,59 +50,41 @@ function GetMessages() {
 			JSON.parse(resp).forEach(AddMessage)
 		}
 	}
-
 	request.onerror = function () {
 		// There was a connection error of some sort
 		alert('request to server error')
 	}
-
 	request.send()
 }
-
 // -- Once app loaded (but before images are loaded), display all the chat history below the chat area
 document.addEventListener('DOMContentLoaded', () => {
 	// -- console.log('loaded')
 	GetMessages(message)
 })
-
-// -- Socket.IO Initialization on client side--------------------------------------
-// *** fix socket.io
-// var socket = io()
-
 // -- Submitting the message to the database
 function msgSubmit(e) {
 	e.preventDefault()
 	// -- grab text input values from the form
 	let name = document.querySelector('#name').value
 	let message = document.querySelector('#message').value
-
 	// -- create an object with input values
 	let data = {name, message}
-
-	// -- Saving the message using the quick and unsafe way (not CRUD)
-	// *** fix socket.io
-	// socket.emit('message', data)
-
 	// -- POST request impementation
 	var request = new XMLHttpRequest()
 	request.open('POST', `${window.location.href}messages`, true)
 	request.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8')
-	request.send(JSON.stringify(data)) // -- send raw data as text using stringify
-
-	// -- reset the form fields
-	document.querySelector('#form1').reset()
+	// -- send raw data as text using stringify
+	request.send(JSON.stringify(data))
 }
-
 // -- Once data successfully saved to MondoDB by server via POST request, server emits the event and returns the newly saved message to callback below
-// socket.on('appendMessage', (savedMessage) => {
-// 	// -- Append message to Client webpage
-// 	AddMessage(savedMessage)
-// 	// -- clears the form
-// 	document.querySelector('#form1').reset()
-// })
+socket.on('appendMessage', (savedMessage) => {
+	// -- Append message to Client webpage
+	AddMessage(savedMessage)
+	// -- clears the form field when you know the data was successfully saved
+	document.querySelector('#form1').reset()
+})
 // -- submit button
 document.querySelector('#form1').addEventListener('submit', msgSubmit)
-
 // -- Danger - delete all button
 document
 	.querySelector('#btn-delete-all')

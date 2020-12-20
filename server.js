@@ -1,5 +1,8 @@
 const express = require('express')
 const app = express()
+const http = require('http').createServer(app)
+const io = require('socket.io')(http)
+const mongoose = require('mongoose')
 
 // --need to tweak this:
 // process.env.NODE_ENV
@@ -11,12 +14,8 @@ if (port == null || port == '') {
 	port = 3000
 }
 
-const http = require('http').createServer(app)
-const io = require('socket.io')(http)
-
 // -- Adding mongoose -----------------------------------------------
-const mongoose = require('mongoose')
-// -- in production, this url would be in a hidden config file
+// -- in production, the login and pass would be in a hidden config file
 const urlDB =
 	'mongodb+srv://testUser:9Q4XDruS1nj43UpQ@learncluster.yrmc9.mongodb.net/chatclient?retryWrites=true&w=majority'
 mongoose.connect(urlDB, {useNewUrlParser: true, useUnifiedTopology: true})
@@ -47,9 +46,6 @@ app.use(express.text())
 // -- the html file at the root dir is displayed
 app.use(express.static('.'))
 
-// -- variable server is only used in the http.listen callback() to get the port number
-const server = http.listen(port)
-
 // -- Respond to the GET /messages page request from the client
 app.get('/messages', (req, res) => {
 	Message.find({}, (err, messages) => {
@@ -64,14 +60,7 @@ app.post('/messages', async (req, res) => {
 	try {
 		var message = new Message(JSON.parse(req.body))
 		var savedMessage = await message.save()
-		// -- potential filtering code - could be replaced by API
-		// var censored = await Message.findOne({ message: 'badword' })
-		// if (censored)
-		//     await Message.remove({ _id: censored.id })
-		// else
-		// io.emit('message', req.body)
 
-		// *** fix socket.io
 		io.emit('appendMessage', savedMessage)
 		res.sendStatus(200)
 		console.log('Post Request: message saved to MongoDB')
@@ -96,7 +85,7 @@ app.post('/delete-all', async (req, res) => {
 	}
 })
 
-// *** fix socket.io
+// -- on connection and disconnet do the following
 io.on('connection', (socket) => {
 	console.log('new client connection')
 
@@ -105,3 +94,5 @@ io.on('connection', (socket) => {
 		console.log('user disconnected')
 	})
 })
+// -- variable server is only used in the http.listen callback() to get the port number
+const server = http.listen(port)
