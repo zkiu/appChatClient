@@ -71,31 +71,37 @@ app.post('/messages', async (req, res) => {
 		// else
 		// io.emit('message', req.body)
 
+		// *** fix socket.io
 		io.emit('appendMessage', savedMessage)
 		res.sendStatus(200)
+		console.log('Post Request: message saved to MongoDB')
 	} catch (error) {
 		res.sendStatus(500)
 		return console.error(error)
-	} finally {
-		console.log('Post Request: message saved to MongoDB')
+	}
+})
+// -- Delete all documents in database
+app.post('/delete-all', async (req, res) => {
+	try {
+		Message.deleteMany({}, (err) => {
+			if (err) {
+				throw err
+			}
+		})
+		res.sendStatus(200)
+		console.log('Post Request: all messages deleted')
+	} catch (error) {
+		res.sendStatus(500)
+		return console.error(error)
 	}
 })
 
+// *** fix socket.io
 io.on('connection', (socket) => {
 	console.log('new client connection')
 
 	// -- actions on client disconnect
 	socket.on('disconnect', () => {
 		console.log('user disconnected')
-	})
-
-	// -- Delete all collections in database
-	socket.on('deleteAll', (deletefunction) => {
-		deletefunction()
-		Message.deleteMany({}, (err) => {
-			if (err) {
-				throw err
-			}
-		})
 	})
 })

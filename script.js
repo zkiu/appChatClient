@@ -105,10 +105,12 @@ document.querySelector('#form1').addEventListener('submit', msgSubmit)
 document
 	.querySelector('#btn-delete-all')
 	.addEventListener('click', function (e) {
-		// -- TO DO: update this to a proper DELETE request
-		socket.emit('deleteAll', () => {
-			console.log('delete called')
-		})
+		// -- POST request impementation
+		var request = new XMLHttpRequest()
+		request.open('POST', `${window.location.href}delete-all`, true)
+		// request.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8')
+		request.send('')
+
 		const MESSAGE = document.querySelector('tbody')
 		MESSAGE.innerHTML = ''
 	})
